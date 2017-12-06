@@ -1,7 +1,7 @@
 /**
  * Created by tprunier on 04/12/17.
  */
-const {setWorldConstructor} = require ('cucumber');
+const { setWorldConstructor } = require ('cucumber');
 const Zombie = require ('zombie');
 
 class CustomWorld {

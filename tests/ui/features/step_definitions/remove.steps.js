@@ -2,9 +2,11 @@
 
 const {Given, Then, When} = require('cucumber');
 
-Given(/^The contact list is display$/, function(callback){
-    this.browser.visit("http://127.0.0.1:3000",(err)=>{
-        if(err) throw err;
+Given(/^The contact list is display$/, function(callback) {
+    this.browser.visit ("http://127.0.0.1:3000",(err)=>{
+        if(err) {
+            throw err;
+        }
         var contact = this.browser.tabs.current.Contact.contacts();
         var iterator=contact.iterator();
         var actualContact;
@@ -21,12 +23,27 @@ Given(/^The contact list is display$/, function(callback){
     });
 });
 
-/*
-When(/^ I change the PIN to {int}$/,function(value,callback){...
-    callback();
+When(/^User clicks on remove button of the first contact$/ , function(callback) {
+    this.browser.visit ("http://127.0.0.1:3000",(err)=> {
+        if (err) {
+            throw err;
+        }
+        var button = this.browser.queryAll ('table tbody td a');
+        button[0].click();
+        callback();
+    });
 });
-Then(/^ the system should remember my PIN is now {int}$/,function(value, callback){
-    assert.equal(this.card.pin(), value);
-    callback();
+
+Then(/^The first contact is removed$/ , function(callback) {
+    this.browser.visit ("http://127.0.0.1:3000",(err)=> {
+        if (err) {
+            throw err;
+        }
+        var contactList = this.browser.tabs.current.Contact.Contacts.instance().iterator().next();
+
+        var contactRemoved = this.browser.queryAll ('table tbody td');
+        this.browser.assert.success(contactList.firstName(), "Jacques");
+        this.browser.assert.success(contactList.firstName(),contactRemoved[0].innerText);
+        callback();
+    });
 });
-*/
